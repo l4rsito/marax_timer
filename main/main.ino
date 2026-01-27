@@ -1,5 +1,6 @@
 #include <Event.h>
 #include <Timer.h>
+#include "secrets.h"
 
 #define D5 (14)
 #define D6 (12)
@@ -23,13 +24,6 @@ Timer t;
 WiFiClient espClient;
 PubSubClient client(espClient);
 
-// Config
-const char* SSID = "";
-const char* PSK = "";
-const char* MQTT_BROKER = "";
-const char* MQTT_USER = "";
-const char* MQTT_PASSWORD = "";
-
 // State
 int timerCount = 0;
 int prevTimerCount = 0;
@@ -37,6 +31,10 @@ bool timerStarted = false;
 long timerStartMillis = 0;
 long timerStopMillis = 0;
 long serialUpdateMillis = 0;
+
+// Todos:
+// * standbyState
+// * let temperatures drop if machine is off or standby
 
 String machineState;
 bool machineHeating;
