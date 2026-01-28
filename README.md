@@ -86,7 +86,8 @@ Use the following code for this.
 mqtt:
     sensor:
       # Espresso timer Mara X
-      - name: 1 - Marax Brew Temp
+      - name: 1 Brew Temp
+        default_entity_id: "marax_brew_temp"
         unique_id: sensor.marax_brew_temp
         state_topic: "/marax/hx" 
         unit_of_measurement: "℃"
@@ -96,7 +97,8 @@ mqtt:
                 - "lelit_marax"
             manufacturer: "Lelit"
             model: "MaraX"
-      - name: 2 - Marax Steam Temp
+      - name: 2 Steam Temp
+        default_entity_id: "marax_steam_temp"
         unique_id: sensor.marax_steam_temp
         state_topic: "/marax/steam" 
         unit_of_measurement: "℃"
@@ -106,7 +108,8 @@ mqtt:
                 - "lelit_marax"
             manufacturer: "Lelit"
             model: "MaraX"
-      - name: 3 - Marax Shot Timer
+      - name: 3 Shot Timer
+        default_entity_id: "marax_shot_timer"
         unique_id: sensor.marax_shot_timer
         state_topic: "/marax/shot"
         unit_of_measurement: "Seconds"
@@ -120,7 +123,8 @@ mqtt:
     
     binary_sensor:
         #Espresso timer Mara X
-      - name: 0 - Marax Machine power
+      - name: 0 Power
+        default_entity_id: "marax_machine_power"
         unique_id: binary_sensor.marax_power
         state_topic: "/marax/power"
         payload_on: 'on'
@@ -131,7 +135,8 @@ mqtt:
                 - "lelit_marax"
             manufacturer: "Lelit"
             model: "MaraX"
-      - name: 4 - Marax Machine pump
+      - name: 4 Pump
+        default_entity_id: "marax_machine_pump"
         unique_id: binary_sensor.marax_pump
         state_topic: "/marax/pump"
         payload_on: 'on'
@@ -142,7 +147,8 @@ mqtt:
                 - "lelit_marax"
             manufacturer: "Lelit"
             model: "MaraX"
-      - name: 5 - Marax Heating
+      - name: 5 Heating
+        default_entity_id: "marax_heating"
         unique_id: binary_sensor.marax_heating
         state_topic: "/marax/machineheating"
         payload_on: 'on'
@@ -153,7 +159,8 @@ mqtt:
                 - "lelit_marax"
             manufacturer: "Lelit"
             model: "MaraX"
-      - name: 6 - Marax Steam Boost
+      - name: 6 Steam Boost
+        default_entity_id: "marax_steam_boost"
         unique_id: binary_sensor.marax_heating_boost
         state_topic: "/marax/machineheatingboost"
         payload_on: 'on'
