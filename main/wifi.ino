@@ -1,6 +1,6 @@
 String lastMachineState;
-int lastHxTemperature = NULL;
-int lastSteamTemperature = NULL;
+int lastHxTemperature = 0;
+int lastSteamTemperature = 0;
 long lastTimerStartMillis = 0;
 bool lastTimerStarted = false;
 bool lastMachineHeating = false;

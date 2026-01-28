@@ -44,8 +44,8 @@ void updateSerial() {
     machineState = "off";
     machineHeating = NULL;
     machineHeatingBoost = NULL;
-    hxTemperature = NULL;
-    steamTemperature = NULL;
+    hxTemperature = 0;
+    steamTemperature = 0;
   }
 }
 
@@ -72,7 +72,7 @@ int getTemperatureHx() {
     return String(receivedChars).substring(14, 17).toInt();
   }
 
-  return NULL;
+  return 0;
 }
 
 int getTemperatureSteam() {
@@ -80,5 +80,5 @@ int getTemperatureSteam() {
     return String(receivedChars).substring(6, 9).toInt();
   }
 
-  return NULL;
+  return 0;
 }

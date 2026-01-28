@@ -39,8 +39,8 @@ long serialUpdateMillis = 0;
 String machineState;
 bool machineHeating;
 bool machineHeatingBoost;
-int hxTemperature = NULL;
-int steamTemperature = NULL;
+int hxTemperature = 0;
+int steamTemperature = 0;
 
 const byte numChars = 32;
 char receivedChars[numChars];
