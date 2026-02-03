@@ -44,8 +44,8 @@ void updateSerial() {
     machineState = "off";
     machineHeating = NULL;
     machineHeatingBoost = NULL;
-    hxTemperature = 0;
-    steamTemperature = 0;
+    // hxTemperature = 0;
+    // steamTemperature = 0;
   }
 }
 

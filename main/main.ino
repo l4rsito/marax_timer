@@ -37,6 +37,7 @@ long serialUpdateMillis = 0;
 // * let temperatures drop if machine is off or standby
 
 String machineState;
+bool machinePower;
 bool machineHeating;
 bool machineHeatingBoost;
 int hxTemperature = 0;

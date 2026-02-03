@@ -5,6 +5,14 @@ long lastTimerStartMillis = 0;
 bool lastTimerStarted = false;
 bool lastMachineHeating = false;
 bool lastMachineHeatingBoost = false;
+bool machineReady = false;
+bool lastMachineReady = false;
+bool hasMachineBeenReady = false;
+bool machineStandBy = false;
+bool lastMachineStandBy = false;
+bool initiated = false;
+int i = 0;
+
 
 void setupWifi() { 
   WiFi.begin(SSID, PSK);
@@ -30,21 +38,36 @@ void updateWifi() {
   
   client.loop();
 
+  if (!initiated) {
+    broadcastMachineState();   
+    broadcastHxTemperature();
+    broadcastSteamTemperature();
+    // broadcastShot();
+    broadcastPump();
+    broadcastMachineHeating();
+    broadcastMachineHeatingBoost();
+    broadcastMachineReady();
+    broadcastMachineStandBy();
+    initiated = true;
+  }
+
   if (lastMachineState != machineState) {
     lastMachineState = machineState;
     broadcastMachineState();   
   }
 
   if (lastHxTemperature != hxTemperature) {
+    if (hxTemperature > 15 && hxTemperature < 115) {
+      broadcastHxTemperature();
+    }
     lastHxTemperature = hxTemperature;
-    if (hxTemperature > 15 && hxTemperature < 115 && abs(hxTemperature - lastHxTemperature) < 3) {
-    broadcastHxTemperature();}
   }
 
   if (lastSteamTemperature != steamTemperature) {
+    if (steamTemperature > 15 && steamTemperature < 250) {
+      broadcastSteamTemperature();
+    }
     lastSteamTemperature = steamTemperature;
-    if (steamTemperature > 15 && steamTemperature < 250 && abs(steamTemperature - lastSteamTemperature) < 3) {
-    broadcastSteamTemperature();}
   }
 
   if (lastTimerStartMillis != timerStartMillis && ((millis() - timerStartMillis ) / 1000) > 15 && timerStarted == false && timerCount > 0) {
@@ -66,6 +89,47 @@ void updateWifi() {
     lastMachineHeatingBoost = machineHeatingBoost;
     broadcastMachineHeatingBoost();
   }
+
+  if (hxTemperature >= 90) {
+    machineReady = true;
+    hasMachineBeenReady = true;
+    machineStandBy = false;
+  } else {
+    machineReady = false;
+  }
+  if (lastMachineReady != machineReady) {
+    broadcastMachineReady();
+    lastMachineReady = machineReady;
+  }
+
+  if (machineState == "off"){
+    hasMachineBeenReady = false;
+    machineStandBy = false;
+    // temp falls slowly
+    if (i > 900000) { // 900000
+      if (hxTemperature >= 15) {
+        hxTemperature = hxTemperature - 1;
+      }
+      if (steamTemperature >= 15) {
+        steamTemperature = steamTemperature -1;
+      }
+      i=0;
+    }
+  }
+  i = (i+1) % 1000000;
+
+  // try to identify standby mode: machine was already ready and temperature is falling below threshold
+  if (hasMachineBeenReady && steamTemperature < 110) {
+    machineStandBy = true;
+  }
+  if (machineHeating || timerStarted) {
+    machineStandBy = false;
+  }
+  if(lastMachineStandBy != machineStandBy){
+    broadcastMachineStandBy();
+    lastMachineStandBy = machineStandBy;
+  }
+
 }
 
 void broadcastMachineState() {
@@ -73,6 +137,22 @@ void broadcastMachineState() {
     client.publish("/marax/power", "off");
   } else {
     client.publish("/marax/power", "on");
+  }
+}
+
+void broadcastMachineReady() {
+  if (machineReady) {
+    client.publish("/marax/ready", "on");
+  } else {
+    client.publish("/marax/ready", "off");
+  }
+}
+
+void broadcastMachineStandBy() {
+  if (machineStandBy) {
+    client.publish("/marax/standby", "on");
+  } else {
+    client.publish("/marax/standby", "off");
   }
 }
 
